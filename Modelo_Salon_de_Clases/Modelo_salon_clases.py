@@ -1,4 +1,4 @@
-# version 0
+# version 0.1
 import random
 import numpy as np
 import math
@@ -39,7 +39,7 @@ for i in range(len(comportamiento_previo_x)):
 
 print(comportamiento_previo_x)
 resultado_x = comportamiento_previo_x.copy()
-for i in range(5):
+for k in range(5):
     for i in range(len(comportamiento_previo_x)):
         suma = 0
         for j in range(len(hashmap_index_conections[i][0])):
