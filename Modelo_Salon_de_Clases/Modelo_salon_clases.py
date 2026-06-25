@@ -1,4 +1,4 @@
-# version 0.4
+# version 1.0
 import numpy as np
 import math
 
@@ -6,13 +6,14 @@ columnas = 6
 filas = 5
 dimension_array = filas * columnas
 
-h = 0.000001
+h = 0.00001
 rng = np.random.default_rng(seed=1)
 
-comportamiento_previo_x = rng.standard_normal(size=30)
+comportamiento_previo_x = rng.uniform(-1, 1, size=30)
 parametro_de_orden = np.sum(comportamiento_previo_x) / dimension_array
 
-matriz_k = np.array([[0, 32, 23, 30, 26, 43, 35, 35, 29, 46, 32, 45, 52, 10, 27, 34, 45, 51, 18, 29, 36, 38, 40, 56, 42, 19, 25, 37, 43, 50],
+matriz_k = np.array([
+    [0, 32, 23, 30, 26, 43, 35, 35, 29, 46, 32, 45, 52, 10, 27, 34, 45, 51, 18, 29, 36, 38, 40, 56, 42, 19, 25, 37, 43, 50],
     [14, 0, 12, 16, 26, 38, 46, 16, 51, 18, 28, 35, 48, 51, 19, 20, 30, 43, 53, 16, 32, 23, 37, 41, 53, 60, 17, 25, 58, 39],
     [14, 13, 0, 5, 7, 14, 58, 43, 15, 39, 40, 36, 47, 27, 42, 42, 53, 16, 27, 38, 49, 5, 11, 22, 33, 44, 55, 16, 27, 38],
     [2, 49, 23, 0, 12, 50, 10, 21, 32, 34, 43, 54, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 44, 43, 34, 42, 41, 12, 34, 45],
