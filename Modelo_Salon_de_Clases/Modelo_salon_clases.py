@@ -10,13 +10,14 @@ El promedio de todos los comportamientos esta dado por parametro_de_orden
 """
 
 import numpy as np
-import math
+import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap
 
 columnas = 6
 filas = 5
 dimension_array = filas * columnas
 
-h = 0.001
+h = 0.01
 rng = np.random.default_rng(seed=1)
 
 comportamiento_previo_x = rng.uniform(-1, 1, size=30)
@@ -79,6 +80,42 @@ for i in range(len(comportamiento_previo_x)):
             hashmap_index_conections[i] = np.array([[i-columnas, i+1, i+columnas, i-1], [matriz_k[i][i-columnas], matriz_k[i][i+1],matriz_k[i][i+columnas], matriz_k[i][i-1]]])
 
 
+cmap = LinearSegmentedColormap.from_list(
+    "comportamiento",
+    ["#5b0013", "white", "#00ffff"]
+)
+plt.ion()
+
+fig, (ax1, ax2) = plt.subplots(1,2, figsize=(12,5))
+x = np.tile(np.arange(columnas), filas)
+
+y = np.repeat(np.arange(filas)[::-1], columnas)
+sc = ax1.scatter(
+    x,
+    y,
+    c=comportamiento_previo_x,
+    cmap=cmap,
+    vmin=-1,
+    vmax=1,
+    s=600,
+    edgecolors="black"
+)
+
+ax1.set_xticks(range(columnas))
+ax1.set_yticks(range(filas))
+ax1.set_title("Estado del salón")
+ax1.set_aspect("equal")
+plt.colorbar(sc, ax=ax1)
+historial = [parametro_de_orden]
+
+linea, = ax2.plot(historial)
+
+ax2.set_ylim(-1,1)
+
+ax2.set_xlabel("Iteración")
+
+ax2.set_ylabel("Parámetro de orden")
+
 print(comportamiento_previo_x, parametro_de_orden)
 while True:
 
@@ -99,5 +136,14 @@ while True:
     comportamiento_previo_x = resultado_x
 
     parametro_de_orden = np.mean(comportamiento_previo_x)
+    historial.append(parametro_de_orden)
+    sc.set_array(comportamiento_previo_x)
+    linea.set_data(
+        np.arange(len(historial)),
+        historial
+    )
+
+    ax2.set_xlim(0, len(historial))
+    plt.pause(0.01)
 
     print(comportamiento_previo_x, parametro_de_orden)
