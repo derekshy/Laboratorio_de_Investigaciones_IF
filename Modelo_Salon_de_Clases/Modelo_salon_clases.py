@@ -16,7 +16,7 @@ columnas = 6
 filas = 5
 dimension_array = filas * columnas
 
-h = 0.01
+h = 0.001
 rng = np.random.default_rng(seed=1)
 
 comportamiento_previo_x = rng.uniform(-1, 1, size=30)
@@ -68,15 +68,15 @@ for i in range(len(comportamiento_previo_x)):
         continue
     else:
         if i in aristas_superiores:
-            hashmap_index_conections[i] = [[i-1, i+1, i+columnas], [matriz_k[i][i-1], matriz_k[i][i+1], matriz_k[i][i+columnas]]]
+            hashmap_index_conections[i] = np.array([[i-1, i+1, i+columnas], [matriz_k[i][i-1], matriz_k[i][i+1], matriz_k[i][i+columnas]]])
         elif i in aristas_laterales_izquierda:
-            hashmap_index_conections[i] = [[i-columnas, i+columnas, i+1], [matriz_k[i][i-columnas], matriz_k[i][i+columnas], matriz_k[i][i+1]]]
+            hashmap_index_conections[i] = np.array([[i-columnas, i+columnas, i+1], [matriz_k[i][i-columnas], matriz_k[i][i+columnas], matriz_k[i][i+1]]])
         elif i in aristas_laterales_derecha:
-            hashmap_index_conections[i] = [[i-columnas, i+columnas, i-1], [matriz_k[i][i-columnas], matriz_k[i][i+columnas], matriz_k[i][i-1]]]
+            hashmap_index_conections[i] = np.array([[i-columnas, i+columnas, i-1], [matriz_k[i][i-columnas], matriz_k[i][i+columnas], matriz_k[i][i-1]]])
         elif i in aristas_inferiores:
-            hashmap_index_conections[i] = [[i-1, i+1, i-columnas], [matriz_k[i][i-1], matriz_k[i][i+1], matriz_k[i][i-columnas]]]
+            hashmap_index_conections[i] = np.array([[i-1, i+1, i-columnas], [matriz_k[i][i-1], matriz_k[i][i+1], matriz_k[i][i-columnas]]])
         else:
-            hashmap_index_conections[i] = [[i-columnas, i+1, i+columnas, i-1], [matriz_k[i][i-columnas], matriz_k[i][i+1],matriz_k[i][i+columnas], matriz_k[i][i-1]]]
+            hashmap_index_conections[i] = np.array([[i-columnas, i+1, i+columnas, i-1], [matriz_k[i][i-columnas], matriz_k[i][i+1],matriz_k[i][i+columnas], matriz_k[i][i-1]]])
 
 
 print(comportamiento_previo_x, parametro_de_orden)
