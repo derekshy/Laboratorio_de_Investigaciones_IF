@@ -1,4 +1,14 @@
-# version 1.0
+"""
+Tittle:
+Modelo de un salon de clases m * n cualquiera, 
+El comportamiento individual de cada individuo se guarda en comportamiento_previo_x,
+En la matriz_k, se encuentran las influencias/conecciones que tiene x individuo con los restantes,
+    por ejemplo, en el primer elemento de esa matriz, se encuentra una lista de 30 elementosde las interacciones con los demas
+    aunque tammbien se encuentra la interaccion consigo mismo aunque sea 0,
+Cada "paso siguiente" esta dado por h
+El promedio de todos los comportamientos esta dado por parametro_de_orden
+"""
+
 import numpy as np
 import math
 
@@ -73,12 +83,12 @@ for i in range(len(comportamiento_previo_x)):
 
 print(comportamiento_previo_x, parametro_de_orden)
 resultado_x = comportamiento_previo_x.copy()
-for k in range(100):
+while True:
     for i in range(len(comportamiento_previo_x)):
         suma = 0
         for j in range(len(hashmap_index_conections[i][0])):
-            suma += hashmap_index_conections[i][1][j] * (comportamiento_previo_x[i]-hashmap_index_conections[i][0][j])**3
-        resultado_x[i] = sigmoid(comportamiento_previo_x[i] - suma * h)
+            suma += hashmap_index_conections[i][1][j] * ((comportamiento_previo_x[i]-comportamiento_previo_x[hashmap_index_conections[i][0][j]])**3)
+        resultado_x[i] = comportamiento_previo_x[i] - sigmoid(suma * h)
     comportamiento_previo_x = resultado_x
     parametro_de_orden = np.sum(comportamiento_previo_x) / dimension_array
     print(comportamiento_previo_x, parametro_de_orden)
