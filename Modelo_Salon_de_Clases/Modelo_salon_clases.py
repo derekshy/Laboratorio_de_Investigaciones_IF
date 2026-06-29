@@ -1,7 +1,7 @@
 """
-Tittle:
-Modelo de un salon de clases m * n cualquiera, 
-El comportamiento individual de cada individuo se guarda en comportamiento_previo_x,
+Titulo: Modelo de un salon de clases m * n cualquiera,
+Descripción:
+El comportamiento individual de cada individuo se guarda en la lista: comportamiento_previo_x,
 En la matriz_k, se encuentran las influencias/conecciones que tiene x individuo con los restantes,
     por ejemplo, en el primer elemento de esa matriz, se encuentra una lista de 30 elementosde las interacciones con los demas
     aunque tammbien se encuentra la interaccion consigo mismo aunque sea 0,
@@ -17,10 +17,11 @@ columnas = 6
 filas = 5
 dimension_array = filas * columnas
 
-h = 0.01
+h = 0.1
 rng = np.random.default_rng(seed=1)
 
 comportamiento_previo_x = rng.uniform(-1, 1, size=30)
+
 parametro_de_orden = np.sum(comportamiento_previo_x) / dimension_array
 
 matriz_k = np.array([
@@ -117,9 +118,8 @@ ax2.set_xlabel("Iteración")
 ax2.set_ylabel("Parámetro de orden")
 
 print(comportamiento_previo_x, parametro_de_orden)
+resultado_x = comportamiento_previo_x.copy()
 while True:
-
-    resultado_x = comportamiento_previo_x.copy()
 
     for i in range(len(comportamiento_previo_x)):
         suma = 0.0
@@ -129,11 +129,10 @@ while True:
             peso = hashmap_index_conections[i][1][j]
 
             suma += peso * (comportamiento_previo_x[i] -
-                            comportamiento_previo_x[vecino])**3
+                            comportamiento_previo_x[vecino])**7
+        resultado_x[i] = comportamiento_previo_x[i] - np.tanh(suma) * h
 
-        resultado_x[i] = comportamiento_previo_x[i] - np.tanh(h*suma)
-
-    comportamiento_previo_x = resultado_x
+    comportamiento_previo_x = resultado_x.copy()
 
     parametro_de_orden = np.mean(comportamiento_previo_x)
     historial.append(parametro_de_orden)
