@@ -80,7 +80,7 @@ for i in range(len(comportamiento_previo_x)):
         else:
             hashmap_index_conections[i] = np.array([[i-columnas, i+1, i+columnas, i-1], [matriz_k[i][i-columnas], matriz_k[i][i+1],matriz_k[i][i+columnas], matriz_k[i][i-1]]])
 
-
+# MATPLOTLIB GRAPHICS
 cmap = LinearSegmentedColormap.from_list(
     "comportamiento",
     ["#5b0013", "white", "#00ffff"]
@@ -107,16 +107,13 @@ ax1.set_yticks(range(filas))
 ax1.set_title("Estado del salón")
 ax1.set_aspect("equal")
 plt.colorbar(sc, ax=ax1)
+
 historial = [parametro_de_orden]
 
 linea, = ax2.plot(historial)
-
 ax2.set_ylim(-1,1)
-
 ax2.set_xlabel("Iteración")
-
 ax2.set_ylabel("Parámetro de orden")
-
 ax2.set_title(f"Orden = {parametro_de_orden:.4f}")
 
 print(comportamiento_previo_x, parametro_de_orden)
@@ -140,15 +137,16 @@ while True:
     comportamiento_previo_x = resultado_x.copy()
 
     parametro_de_orden = np.mean(comportamiento_previo_x)
+
+    print(comportamiento_previo_x, parametro_de_orden)
+
+    # MATPLOTLIB GRAPHICS
     historial.append(parametro_de_orden)
     sc.set_array(comportamiento_previo_x)
     linea.set_data(
         np.arange(len(historial)),
         historial
     )
-
     ax2.set_xlim(0, len(historial))
     
     plt.pause(0.00000000001)
-
-    print(comportamiento_previo_x, parametro_de_orden)
