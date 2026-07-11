@@ -63,7 +63,7 @@ aristas_laterales_izquierda = np.arange(columnas, dimension_array-columnas,colum
 aristas_laterales_derecha = np.arange((2*columnas)-1, dimension_array-columnas+1, columnas)
 aristas_inferiores = np.arange(dimension_array-columnas+1, dimension_array-1)
 
-hashmap_index_conections = {0:[np.array([1,columnas]), [32,35]], 5:[np.array([columnas-2,2*columnas-1]), [16,20]], 24:[np.array([dimension_array-(2*columnas),dimension_array-columnas+1]), [7,54]], 29:[np.array([dimension_array-2,dimension_array-columnas-1]), [23,42]]}
+hashmap_index_conections = {0:[np.array([1,columnas]), [32,35]], columnas-1:[np.array([columnas-2,2*columnas-1]), [16,20]], dimension_array-columnas:[np.array([dimension_array-(2*columnas),dimension_array-columnas+1]), [7,54]], dimension_array-1:[np.array([dimension_array-2,dimension_array-columnas-1]), [23,42]]}
 
 for i in range(len(comportamiento_previo_x)):  
     if i in esquinas:
@@ -128,9 +128,9 @@ while True:
             vecino = hashmap_index_conections[i][0][j]
             peso = hashmap_index_conections[i][1][j]
 
-            suma += peso * (comportamiento_previo_x[i] -
-                            comportamiento_previo_x[vecino])**7
-        resultado_x[i] = comportamiento_previo_x[i] - np.tanh(suma) * h
+            suma += peso * ((comportamiento_previo_x[i] -
+                            comportamiento_previo_x[vecino])**3)
+        resultado_x[i] = comportamiento_previo_x[i] - (np.tanh(suma) * h)
 
     comportamiento_previo_x = resultado_x.copy()
 
