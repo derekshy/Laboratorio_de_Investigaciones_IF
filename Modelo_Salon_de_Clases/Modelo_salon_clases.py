@@ -13,14 +13,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import LinearSegmentedColormap
 
-columnas = 6
-filas = 5
+columnas = 2
+filas = 1
 dimension_array = filas * columnas
 
 h = 0.1
 rng = np.random.default_rng(seed=1)
 
-comportamiento_previo_x = rng.uniform(-1, 1, size=30)
+comportamiento_previo_x = rng.uniform(-1, 1, size=columnas*filas)
 
 parametro_de_orden = np.sum(comportamiento_previo_x) / dimension_array
 
@@ -117,9 +117,14 @@ ax2.set_xlabel("Iteración")
 
 ax2.set_ylabel("Parámetro de orden")
 
+ax2.set_title(f"Orden = {parametro_de_orden:.4f}")
+
 print(comportamiento_previo_x, parametro_de_orden)
 resultado_x = comportamiento_previo_x.copy()
 while True:
+    ax2.set_title(
+        f"Parámetro de orden = {parametro_de_orden:.17f}"
+    )  
 
     for i in range(len(comportamiento_previo_x)):
         suma = 0.0
@@ -130,7 +135,7 @@ while True:
 
             suma += peso * ((comportamiento_previo_x[i] -
                             comportamiento_previo_x[vecino])**3)
-        resultado_x[i] = comportamiento_previo_x[i] - (np.tanh(suma) * h)
+        resultado_x[i] = (comportamiento_previo_x[i] - (np.tanh(suma) * h))
 
     comportamiento_previo_x = resultado_x.copy()
 
@@ -143,6 +148,7 @@ while True:
     )
 
     ax2.set_xlim(0, len(historial))
-    plt.pause(0.01)
+    
+    plt.pause(0.00000000001)
 
     print(comportamiento_previo_x, parametro_de_orden)
