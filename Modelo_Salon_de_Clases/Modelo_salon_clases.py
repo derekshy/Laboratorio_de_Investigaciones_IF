@@ -6,23 +6,25 @@ En la matriz_k, se encuentran las influencias/conecciones que tiene x individuo 
     por ejemplo, en el primer elemento de esa matriz, se encuentra una lista de 30 elementosde las interacciones con los demas
     aunque tammbien se encuentra la interaccion consigo mismo aunque sea 0,
 Cada "paso siguiente" esta dado por h
-El promedio de todos los comportamientos esta dado por parametro_de_orden
+El promedio de todos los comportamientos esta dado por promedio
 """
 
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import LinearSegmentedColormap
 
-columnas = 2
-filas = 1
+rng = np.random.default_rng(seed=1)
+
+columnas = 6
+filas = 5
 dimension_array = filas * columnas
 
 h = 0.1
-rng = np.random.default_rng(seed=1)
 
 comportamiento_previo_x = rng.uniform(-1, 1, size=columnas*filas)
 
-parametro_de_orden = np.sum(comportamiento_previo_x) / dimension_array
+promedio = np.sum(comportamiento_previo_x) / dimension_array
+r = np.sqrt( np.mean((1-((comportamiento_previo_x)**2))) + ((np.sum(comportamiento_previo_x)) / dimension_array)**2 )
 
 matriz_k = np.array([
     np.array([0, 32, 23, 30, 26, 43, 35, 35, 29, 46, 32, 45, 52, 10, 27, 34, 45, 51, 18, 29, 36, 38, 40, 56, 42, 19, 25, 37, 43, 50]),
@@ -108,19 +110,21 @@ ax1.set_title("Estado del salón")
 ax1.set_aspect("equal")
 plt.colorbar(sc, ax=ax1)
 
-historial = [parametro_de_orden]
+historial = [promedio]
 
 linea, = ax2.plot(historial)
 ax2.set_ylim(-1,1)
 ax2.set_xlabel("Iteración")
 ax2.set_ylabel("Parámetro de orden")
-ax2.set_title(f"Orden = {parametro_de_orden:.4f}")
+ax2.set_title(f"Orden = {promedio:.4f}")
 
-print(comportamiento_previo_x, parametro_de_orden)
 resultado_x = comportamiento_previo_x.copy()
+
 while True:
+    print(comportamiento_previo_x, promedio, r)
+
     ax2.set_title(
-        f"Parámetro de orden = {parametro_de_orden:.17f}"
+        f"Parámetro de orden = {r:.17f}"
     )  
 
     for i in range(len(comportamiento_previo_x)):
@@ -136,17 +140,18 @@ while True:
 
     comportamiento_previo_x = resultado_x.copy()
 
-    parametro_de_orden = np.mean(comportamiento_previo_x)
+    promedio = np.mean(comportamiento_previo_x)
 
-    print(comportamiento_previo_x, parametro_de_orden)
+    r = np.sqrt( np.mean((1-((comportamiento_previo_x)**2))) + ((np.sum(comportamiento_previo_x)) / dimension_array)**2 )
+
 
     # MATPLOTLIB GRAPHICS
-    historial.append(parametro_de_orden)
+    historial.append(r)
     sc.set_array(comportamiento_previo_x)
     linea.set_data(
         np.arange(len(historial)),
         historial
     )
     ax2.set_xlim(0, len(historial))
-    
+
     plt.pause(0.00000000001)
