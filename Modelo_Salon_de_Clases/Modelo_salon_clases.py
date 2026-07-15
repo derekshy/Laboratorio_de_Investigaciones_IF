@@ -24,7 +24,7 @@ h = 0.1
 comportamiento_previo_x = rng.uniform(-1, 1, size=columnas*filas)
 
 promedio = np.sum(comportamiento_previo_x) / dimension_array
-r = np.sqrt( np.mean((1-((comportamiento_previo_x)**2))) + ((np.sum(comportamiento_previo_x)) / dimension_array)**2 )
+r = np.sqrt( np.mean((np.sqrt(1-(comportamiento_previo_x**2)))**2) + ((np.sum(comportamiento_previo_x)) / dimension_array)**2 )
 
 matriz_k = np.array([
     np.array([0, 32, 23, 30, 26, 43, 35, 35, 29, 46, 32, 45, 52, 10, 27, 34, 45, 51, 18, 29, 36, 38, 40, 56, 42, 19, 25, 37, 43, 50]),
@@ -121,7 +121,7 @@ ax2.set_title(f"Orden = {promedio:.4f}")
 resultado_x = comportamiento_previo_x.copy()
 
 while True:
-    print(comportamiento_previo_x, promedio, r)
+    print(comportamiento_previo_x, "promedio: ", promedio, "orden: ", r)
 
     ax2.set_title(
         f"Parámetro de orden = {r:.17f}"
@@ -142,7 +142,7 @@ while True:
 
     promedio = np.mean(comportamiento_previo_x)
 
-    r = np.sqrt( np.mean((1-((comportamiento_previo_x)**2))) + ((np.sum(comportamiento_previo_x)) / dimension_array)**2 )
+    r = np.sqrt( np.mean((np.sqrt(1-(comportamiento_previo_x**2)))**2) + ((np.sum(comportamiento_previo_x)) / dimension_array)**2 )
 
 
     # MATPLOTLIB GRAPHICS
