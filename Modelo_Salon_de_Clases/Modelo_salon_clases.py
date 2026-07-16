@@ -15,16 +15,17 @@ from matplotlib.colors import LinearSegmentedColormap
 
 rng = np.random.default_rng(seed=1)
 
-columnas = 6
-filas = 5
+columnas = 20
+filas = 20
 dimension_array = filas * columnas
 
 h = 0.1
 
 comportamiento_previo_x = rng.uniform(-1, 1, size=columnas*filas)
-
-promedio = np.sum(comportamiento_previo_x) / dimension_array
-r = np.sqrt( np.mean((np.sqrt(1-(comportamiento_previo_x**2)))**2) + ((np.sum(comportamiento_previo_x)) / dimension_array)**2 )
+promedio = np.mean(comportamiento_previo_x)
+def orden(lista):
+    return np.sqrt( np.mean((np.sqrt(1-(lista**2))))**2 + (np.mean(comportamiento_previo_x))**2 )
+r = orden(comportamiento_previo_x)
 
 matriz_k = np.array([
     np.array([0, 32, 23, 30, 26, 43, 35, 35, 29, 46, 32, 45, 52, 10, 27, 34, 45, 51, 18, 29, 36, 38, 40, 56, 42, 19, 25, 37, 43, 50]),
@@ -58,6 +59,13 @@ matriz_k = np.array([
     np.array([38, 40, 1, 4, 7, 10, 13, 16, 19, 22, 26, 29, 32, 36, 39, 3, 8, 12, 15, 18, 20, 25, 16, 28, 31, 34, 37, 3, 0, 30]),
     np.array([2, 6, 11, 11, 14, 17, 23, 27, 30, 33, 35, 39, 1, 6, 5, 9, 13, 16, 21, 24, 28, 22, 32, 23, 36, 40, 10, 50, 42, 0])])
 
+matriz_k = rng.integers(
+    1,
+    61,
+    size=(dimension_array, dimension_array)
+)
+
+np.fill_diagonal(matriz_k,0)
 
 esquinas = np.array([0,columnas-1,dimension_array-columnas,dimension_array-1])
 aristas_superiores = np.arange(1,columnas-1)
@@ -110,17 +118,20 @@ ax1.set_title("Estado del salón")
 ax1.set_aspect("equal")
 plt.colorbar(sc, ax=ax1)
 
-historial = [promedio]
+historial = [r]
 
 linea, = ax2.plot(historial)
-ax2.set_ylim(-1,1)
+ax2.set_ylim(-1.3,1.3)
 ax2.set_xlabel("Iteración")
 ax2.set_ylabel("Parámetro de orden")
-ax2.set_title(f"Orden = {promedio:.4f}")
+ax2.set_title(f"Ordenn = {r:.17f}")
 
 resultado_x = comportamiento_previo_x.copy()
 
-while True:
+for k in range(99999):
+    promedio = np.mean(comportamiento_previo_x)
+    r = orden(comportamiento_previo_x)
+
     print(comportamiento_previo_x, "promedio: ", promedio, "orden: ", r)
 
     ax2.set_title(
@@ -140,10 +151,6 @@ while True:
 
     comportamiento_previo_x = resultado_x.copy()
 
-    promedio = np.mean(comportamiento_previo_x)
-
-    r = np.sqrt( np.mean((np.sqrt(1-(comportamiento_previo_x**2)))**2) + ((np.sum(comportamiento_previo_x)) / dimension_array)**2 )
-
 
     # MATPLOTLIB GRAPHICS
     historial.append(r)
@@ -154,4 +161,4 @@ while True:
     )
     ax2.set_xlim(0, len(historial))
 
-    plt.pause(0.00000000001)
+    plt.pause(1)
