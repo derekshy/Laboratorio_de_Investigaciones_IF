@@ -15,8 +15,8 @@ from matplotlib.colors import LinearSegmentedColormap
 
 rng = np.random.default_rng(seed=1)
 
-columnas = 20
-filas = 20
+columnas = 6
+filas = 5
 dimension_array = filas * columnas
 
 h = 0.1
@@ -59,11 +59,7 @@ matriz_k = np.array([
     np.array([38, 40, 1, 4, 7, 10, 13, 16, 19, 22, 26, 29, 32, 36, 39, 3, 8, 12, 15, 18, 20, 25, 16, 28, 31, 34, 37, 3, 0, 30]),
     np.array([2, 6, 11, 11, 14, 17, 23, 27, 30, 33, 35, 39, 1, 6, 5, 9, 13, 16, 21, 24, 28, 22, 32, 23, 36, 40, 10, 50, 42, 0])])
 
-matriz_k = rng.integers(
-    1,
-    61,
-    size=(dimension_array, dimension_array)
-)
+
 
 np.fill_diagonal(matriz_k,0)
 
@@ -161,4 +157,4 @@ for k in range(99999):
     )
     ax2.set_xlim(0, len(historial))
 
-    plt.pause(1)
+    plt.pause(0.0000000001)
