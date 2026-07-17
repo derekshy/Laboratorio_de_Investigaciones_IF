@@ -61,8 +61,6 @@ matriz_k = np.array([
 
 
 
-np.fill_diagonal(matriz_k,0)
-
 esquinas = np.array([0,columnas-1,dimension_array-columnas,dimension_array-1])
 aristas_superiores = np.arange(1,columnas-1)
 aristas_laterales_izquierda = np.arange(columnas, dimension_array-columnas,columnas)
